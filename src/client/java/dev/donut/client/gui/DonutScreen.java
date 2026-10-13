@@ -193,7 +193,7 @@ public final class DonutScreen extends Screen {
     private boolean matches(int index) {
         if (tab == 1 && !favorite(index)) return false;
         String words = switch (index) {
-            case 0 -> "storagefinder chests trapped ender shulker droppers";
+            case 0 -> "storagefinder chests trapped ender shulker droppers amethyst clusters shards";
             case 1 -> "spawnerfinder spawners trial";
             default -> "freecam free camera fly perspective spectator";
         };
@@ -296,6 +296,7 @@ public final class DonutScreen extends Screen {
             settingToggle(g, "ender", "Ender chests", "Personal ender storage", y, () -> s.enderChests, () -> s.enderChests = !s.enderChests); y += 43;
             settingToggle(g, "shulkers", "Shulker boxes", "Every shulker color", y, () -> s.shulkers, () -> s.shulkers = !s.shulkers); y += 43;
             settingToggle(g, "droppers", "Droppers", "Dropper blocks", y, () -> s.droppers, () -> s.droppers = !s.droppers); y += 43;
+            settingToggle(g, "amethystClusters", "Amethyst clusters", "Highlight only fully grown clusters in purple", y, () -> s.amethystClusters, () -> s.amethystClusters = !s.amethystClusters); y += 43;
         } else {
             text(g, font, "Monster spawners are always included.", CX + 3, y + 8, MUTED); y += 31;
             settingToggle(g, "trial", "Trial spawners", "Include trial chamber spawners", y, () -> s.trialSpawners, () -> s.trialSpawners = !s.trialSpawners); y += 43;
