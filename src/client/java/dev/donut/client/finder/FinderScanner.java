@@ -68,8 +68,8 @@ public final class FinderScanner {
             int px = client.player.blockPosition().getX();
             int py = client.player.blockPosition().getY();
             int pz = client.player.blockPosition().getZ();
-            int minY = Math.max(client.level.getMinBuildHeight(), py - blockRadius);
-            int maxY = Math.min(client.level.getMaxBuildHeight() - 1, py + blockRadius);
+            int minY = py - blockRadius;
+            int maxY = py + blockRadius;
             for (int x = px - blockRadius; x <= px + blockRadius; x++) {
                 for (int z = pz - blockRadius; z <= pz + blockRadius; z++) {
                     if (!client.level.hasChunkAt(new BlockPos(x, py, z))) continue;
