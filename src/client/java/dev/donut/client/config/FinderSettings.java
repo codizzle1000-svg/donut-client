@@ -15,6 +15,7 @@ public final class FinderSettings {
     public boolean enderChests = true;
     public boolean shulkers = true;
     public boolean droppers = true;
+    public boolean amethystClusters = true;
     public boolean trialSpawners = true;
     public boolean perTypeColors = true;
     public int color = 0x4C86FF;
