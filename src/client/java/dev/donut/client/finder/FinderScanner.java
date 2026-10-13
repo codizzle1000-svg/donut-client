@@ -8,6 +8,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.core.BlockPos;
 
 /** Reads only block entities already sent to the client; never requests chunks. */
 public final class FinderScanner {
@@ -56,6 +57,28 @@ public final class FinderScanner {
                     var pos = entity.getBlockPos();
                     if (pos.distToCenterSqr(origin) <= settings.range * settings.range) {
                         found.add(new FoundBlock(pos.immutable(), kind));
+                    }
+                }
+            }
+        }
+        // Amethyst clusters are ordinary blocks, not block entities. Scan a small cube around
+        // the player, and only inspect chunks already loaded by Minecraft (never load new chunks).
+        if (config.storage.enabled && config.storage.amethystClusters && ticks % 20 == 1) {
+            int blockRadius = 32;
+            int px = client.player.blockPosition().getX();
+            int py = client.player.blockPosition().getY();
+            int pz = client.player.blockPosition().getZ();
+            int minY = Math.max(client.level.getMinBuildHeight(), py - blockRadius);
+            int maxY = Math.min(client.level.getMaxBuildHeight() - 1, py + blockRadius);
+            for (int x = px - blockRadius; x <= px + blockRadius; x++) {
+                for (int z = pz - blockRadius; z <= pz + blockRadius; z++) {
+                    if (!client.level.hasChunkAt(new BlockPos(x, py, z))) continue;
+                    for (int y = minY; y <= maxY; y++) {
+                        BlockPos pos = new BlockPos(x, y, z);
+                        if (!client.level.getBlockState(pos).is(net.minecraft.world.level.block.Blocks.AMETHYST_CLUSTER)) continue;
+                        if (pos.distToCenterSqr(origin) <= config.storage.range * config.storage.range) {
+                            found.add(new FoundBlock(pos.immutable(), TargetKind.AMETHYST_CLUSTER));
+                        }
                     }
                 }
             }
